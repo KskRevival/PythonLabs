@@ -3,18 +3,20 @@
 def without_remainder(num, divider):
     return num // divider * divider
 
-def print_to_result(pos, num):
+def add_to_result(pos, num):
     spaces = " " * (max(0, pos - len(str(num)) + 1))
-    if num != None:
-        print(f"{spaces}{num}")
+    return str(f"{spaces}{num}")
 
-def print_results(pos, num, divider):
+def add_results(pos, num, divider):
+    res = ""
     wo_remainder = without_remainder(num, divider)
-    print_to_result(pos, num)
-    print_to_result(pos, wo_remainder)
+    res += add_to_result(pos, num) + '\n'
+    res += add_to_result(pos, wo_remainder)
+    return res
 
 def long_division(dividend, divider):
-    print(f"{dividend}|{divider}")
+    res = ""
+    res += f"{dividend}|{divider}\n"
 
     str_dividend = str(dividend)
     num = 0
@@ -29,19 +31,21 @@ def long_division(dividend, divider):
         if num // divider == 0:
             continue
         if is_first:
-            spaces = " "* (max(0, len(str_dividend) - pos - 1))
-            print(f"{without_remainder(num, divider)}{spaces}|{dividend // divider}")
+            spaces = " " * (max(0, len(str_dividend) - pos - 1))
+            res += f"{without_remainder(num, divider)}{spaces}|{dividend // divider}\n"
             is_first = False
         else:
-            print_results(pos, num, divider)
+            res += add_results(pos, num, divider) + '\n'
 
         num %= divider
 
     if is_first:
         spaces = " " * (max(0, len(str_dividend) - pos - 1))
-        print(f"{num}{spaces}|{dividend // divider}")
+        res += f"{num}{spaces}|{dividend // divider}"
     else:
-        print_to_result(pos, num)
+        res += add_to_result(pos, num)
+
+    return res
 
 
 def main():
