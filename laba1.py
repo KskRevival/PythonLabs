@@ -37,7 +37,12 @@ def long_division(dividend, divider):
 
         num %= divider
 
-    print_to_result(pos, num)
+    if is_first:
+        spaces = " " * (max(0, len(str_dividend) - pos - 1))
+        print(f"{num}{spaces}|{dividend // divider}")
+    else:
+        print_to_result(pos, num)
+
 
 def main():
     print(long_division(123, 123))
