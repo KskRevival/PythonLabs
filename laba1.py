@@ -8,14 +8,14 @@ def add_to_result(pos, num):
     return str(f"{spaces}{num}")
 
 def add_results(pos, num, divider):
+    res = ""
     wo_remainder = without_remainder(num, divider)
     res += add_to_result(pos, num) + '\n'
     res += add_to_result(pos, wo_remainder)
     return res
 
 def long_division(dividend, divider):
-    res = ""
-    res += f"{dividend}|{divider}\n"
+    res = f"{dividend}|{divider}\n"
 
     str_dividend = str(dividend)
     num = 0
