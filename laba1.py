@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-def without_remainder(num, divider):
+def no_remainder(num, divider):
     return num // divider * divider
 
 
@@ -12,7 +12,7 @@ def add_to_result(pos, num):
 
 def add_results(pos, num, divider):
     res = ""
-    wo_remainder = without_remainder(num, divider)
+    wo_remainder = no_remainder(num, divider)
     res += add_to_result(pos, num) + '\n'
     res += add_to_result(pos, wo_remainder)
     return res
@@ -27,7 +27,7 @@ def long_division(dividend, divider):
     pos = -1
     is_first = True
 
-    while (pos < size - 1):
+    while pos < size - 1:
         pos += 1
         num = num * 10 + int(str_dividend[pos])
 
@@ -35,7 +35,8 @@ def long_division(dividend, divider):
             continue
         if is_first:
             spaces = " " * (max(0, len(str_dividend) - pos - 1))
-            res += f"{without_remainder(num, divider)}{spaces}|{dividend // divider}\n"
+            res += \
+                f"{no_remainder(num, divider)}{spaces}|{dividend // divider}\n"
             is_first = False
         else:
             res += add_results(pos, num, divider) + '\n'
