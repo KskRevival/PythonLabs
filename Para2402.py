@@ -15,5 +15,12 @@ for f in full_names:
 
 sorted_names = dict(sorted(names.items(), key=lambda x: x[1], reverse=True))
 
+print("Женщины:")
 for v in sorted_names:
-    print(f'{v}: {names[v]}')
+    if v[-1:] in "уеоиаяюаы" and not (v in "ИльяНикитаАлехандроЛёва") or v == "Любовь":
+        print(f'{v}: {names[v]}')
+
+print("\nМужчины")
+for v in sorted_names:
+    if not (re.match('[уеиоэюая]', v) and not (v in "ИльяНикитаАлехандроЛёва") or v == "Любовь"):
+     print(f'{v}: {names[v]}')
