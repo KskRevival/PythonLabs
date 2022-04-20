@@ -68,10 +68,35 @@ def bauer_moore(hay, needle):
     return -1
 
 
+def prefix(text):
+    len_text = len(text)
+    prefix_table = [0]*len_text
+    for i in range(1, len_text):
+        curr = prefix_table[i-1]
+        while curr > 0 and text[curr] != text[i]:
+            curr = prefix_table[curr-1]
+        if text[curr] == text[i]:
+            curr = curr + 1
+        prefix_table[i] = curr
+    return prefix_table
+
+
+def kmp(hay, needle):
+    prefix_table = prefix(hay)
+    curr = 0
+    for i in range(len(needle)):
+        while curr > 0 and hay[curr] != needle[i]:
+            curr = prefix_table[curr-1]
+        if hay[curr] == needle[i]:
+            curr = curr + 1
+        if curr == len(hay):
+            return i - len(hay) + 1
+
+
 if __name__ == '__main__':
     hay = input()
     needle = input()
     print(f"Обычный: {standard_search(hay, needle)}")
     print(f"Рабин-Карп: {rabin_karp(hay, needle)}")
     print(f"Бойер-Мур: {bauer_moore(hay, needle)}")
-
+    print(f"Кнут-Моррис-Пратт: {bauer_moore(hay, needle)}")
