@@ -1,3 +1,6 @@
+import string
+import random as r
+
 unicode_size = 1105
 key_max = 1
 
@@ -94,10 +97,27 @@ def kmp(hay, needle):
     return -1
 
 
+def get_fixed_text(needle_size, position):
+    needle = 'a'
+    hay = ''.join(r.choice(string.ascii_uppercase + string.digits) for _ in range(position)) + 'a'
+    return (hay, needle)
+
+
+def get_random_text(needle_size, position):
+    needle = ''.join(r.choice(string.ascii_uppercase + string.digits) for _ in range(needle_size))
+    hay = ''.join(r.choice(string.ascii_uppercase + string.digits) for _ in range(position))
+    return (hay, needle)
+
 
 if __name__ == '__main__':
-    hay = input()
-    needle = input()
+    #hay = input()
+    #needle = input()
+    (hay, needle) = get_fixed_text(10, 10000)
+    print(f"Обычный: {standard_search(hay, needle)}")
+    print(f"Рабин-Карп: {rabin_karp(hay, needle)}")
+    print(f"Бойер-Мур: {bauer_moore(hay, needle)}")
+    print(f"Кнут-Моррис-Пратт: {kmp(hay, needle)}")
+    (hay, needle) = get_random_text(1, 10000)
     print(f"Обычный: {standard_search(hay, needle)}")
     print(f"Рабин-Карп: {rabin_karp(hay, needle)}")
     print(f"Бойер-Мур: {bauer_moore(hay, needle)}")
