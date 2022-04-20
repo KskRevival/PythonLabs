@@ -82,15 +82,17 @@ def prefix(text):
 
 
 def kmp(hay, needle):
-    prefix_table = prefix(hay)
+    prefix_table = prefix(needle)
     curr = 0
-    for i in range(len(needle)):
-        while curr > 0 and hay[curr] != needle[i]:
+    for i in range(len(hay)):
+        while curr > 0 and needle[curr] != hay[i]:
             curr = prefix_table[curr-1]
-        if hay[curr] == needle[i]:
+        if needle[curr] == hay[i]:
             curr = curr + 1
-        if curr == len(hay):
-            return i - len(hay) + 1
+        if curr == len(needle):
+            return i - len(needle) + 1
+    return -1
+
 
 
 if __name__ == '__main__':
@@ -99,4 +101,4 @@ if __name__ == '__main__':
     print(f"Обычный: {standard_search(hay, needle)}")
     print(f"Рабин-Карп: {rabin_karp(hay, needle)}")
     print(f"Бойер-Мур: {bauer_moore(hay, needle)}")
-    print(f"Кнут-Моррис-Пратт: {bauer_moore(hay, needle)}")
+    print(f"Кнут-Моррис-Пратт: {kmp(hay, needle)}")
