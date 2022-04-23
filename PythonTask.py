@@ -98,8 +98,8 @@ def kmp(hay, needle):
 
 
 def get_fixed_text(needle_size, position):
-    needle = 'a'
-    hay = ''.join(r.choice(string.ascii_uppercase + string.digits) for _ in range(position)) + 'a'
+    needle = 'a'.join(r.choice(string.ascii_uppercase + string.digits) for _ in range(position))
+    hay = ''.join(r.choice(string.ascii_uppercase + string.digits) for _ in range(position)) + needle
     return (hay, needle)
 
 
