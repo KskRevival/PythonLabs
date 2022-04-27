@@ -1,5 +1,9 @@
+import tracemalloc
+from datetime import datetime
+import matplotlib.pyplot as plt
 import string
 import random as r
+
 
 unicode_size = 1105
 key_max = 1
@@ -20,7 +24,7 @@ def full_hash(needle, key):
     for i in range(len(needle)):
         curr_hash += key_max * (ord(needle[i]) % key)
         key_max *= key
-    key_max /= key
+    key_max //= key
     return curr_hash
 
 
@@ -45,11 +49,10 @@ def rabin_karp(hay, needle):
 def create_table(needle):
     len_needle = len(needle)
     table = [len_needle for i in range(unicode_size)]
-    needle1 = needle[::-1]
 
     for i in range(len_needle):
-        if table[ord(needle1[i])] == len_needle:
-            table[ord(needle1[i])] = i
+        if table[ord(needle[i])] == len_needle:
+            table[ord(needle[i])] = len_needle - i
 
     return table
 
@@ -109,16 +112,53 @@ def get_random_text(needle_size, position):
     return (hay, needle)
 
 
+x = []  # Needle length
+standard = []
+rabin = []
+bauer = []
+res_kmp = []
+
+
+def get_time(func, hay, needle):
+    start = datetime.now()
+    func(hay, needle)
+    return float(str(datetime.now() - start).split(':')[2])
+
+
+def get_memory(func, hay, needle):
+    last = tracemalloc.get_tracemalloc_memory()
+    tracemalloc.start()
+    func(hay, needle)
+    return tracemalloc.get_tracemalloc_memory() - last
+
+
+def benchmark(func, hay, needle, isTime):
+    runner = get_memory
+    if isTime:
+        runner = get_time
+    return runner(func, hay, needle)
+
+
 if __name__ == '__main__':
-    #hay = input()
-    #needle = input()
-    (hay, needle) = get_fixed_text(10, 10000)
-    print(f"Обычный: {standard_search(hay, needle)}")
-    print(f"Рабин-Карп: {rabin_karp(hay, needle)}")
-    print(f"Бойер-Мур: {bauer_moore(hay, needle)}")
-    print(f"Кнут-Моррис-Пратт: {kmp(hay, needle)}")
-    (hay, needle) = get_random_text(1, 10000)
-    print(f"Обычный: {standard_search(hay, needle)}")
-    print(f"Рабин-Карп: {rabin_karp(hay, needle)}")
-    print(f"Бойер-Мур: {bauer_moore(hay, needle)}")
-    print(f"Кнут-Моррис-Пратт: {kmp(hay, needle)}")
+    for i in range(7, 20):
+        (hay, needle) = get_fixed_text(r.randint(2 ** (i - 7), 2 ** (i - 3)), 100000)
+        isTime = False
+        standard.append(benchmark(standard_search, hay, needle, isTime))
+        rabin.append(benchmark(rabin_karp, hay, needle, isTime))
+        bauer.append(benchmark(bauer_moore, hay, needle, isTime))
+        res_kmp.append(benchmark(kmp, hay, needle, isTime))
+        x.append(i)
+
+ax1 = plt.figure(figsize=(12, 7)).add_subplot(111)
+
+plt.plot(x, standard, 'b*', alpha=0.7, label="Standard", mew=2, ms=10)
+plt.plot(x, rabin, 'g^', alpha=0.7, label="Rabin Karp", mew=2, ms=10)
+plt.plot(x, bauer, 'rs', alpha=0.7, label="Bauer Moore", mew=2, ms=10)
+plt.plot(x, res_kmp, 'cD', alpha=0.7, label="KMP", mew=2, ms=10)
+
+plt.legend()
+ax1.set_title(u'Time By Needle Length')
+plt.xlabel(u'Needle length [2^n]', fontsize=12)
+plt.ylabel(u'Time [ms]', fontsize=12)
+plt.grid(True)
+plt.show()
