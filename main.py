@@ -11,7 +11,7 @@ if __name__ == '__main__':
     bauer = []
     kmp = []
     aho = []
-    is_time = False
+    is_time = True
 
     for i in range(7, 20):
         (hay, needle) = textgen.get_fixed_text(r.randint(2 ** (i - 7), 2 ** (i - 3)), 10000)
@@ -23,9 +23,8 @@ if __name__ == '__main__':
         x.append(i)
 
     plotbuilder.draw(is_time, x,
-                     [plotbuilder.plot_func("Standard", standard, 'b*'),
-                      plotbuilder.plot_func("Rabin", rabin, 'g^'),
-                      plotbuilder.plot_func("Bauer", bauer, 'g^'),
-                      plotbuilder.plot_func("KMP", kmp, 'rs'),
-                      plotbuilder.plot_func("Aho", aho, 'сеня добавь штуку для корася')])
-    
+                     [plotbuilder.PlotFunc("Standard", standard, 'b*'),
+                      plotbuilder.PlotFunc("Rabin", rabin, 'g^'),
+                      plotbuilder.PlotFunc("Bauer", bauer, 'm<'),
+                      plotbuilder.PlotFunc("KMP", kmp, 'rs'),
+                      plotbuilder.PlotFunc("Aho", aho, 'yP')])
