@@ -10,6 +10,7 @@ if __name__ == '__main__':
     rabin = []
     bauer = []
     kmp = []
+    aho = []
     is_time = False
 
     for i in range(7, 20):
@@ -18,6 +19,13 @@ if __name__ == '__main__':
         rabin.append(benchmark.test(algos.rabin_karp, hay, needle, is_time))
         bauer.append(benchmark.test(algos.bauer_moore, hay, needle, is_time))
         kmp.append(benchmark.test(algos.kmp, hay, needle, is_time))
+        aho.append(benchmark.test(algos.aho, hay, needle, is_time))
         x.append(i)
 
-    plotbuilder.draw(is_time, x, standard, rabin, bauer, kmp)
+    plotbuilder.draw(is_time, x,
+                     [plotbuilder.plot_func("Standard", standard, 'b*'),
+                      plotbuilder.plot_func("Rabin", rabin, 'g^'),
+                      plotbuilder.plot_func("Bauer", bauer, 'g^'),
+                      plotbuilder.plot_func("KMP", kmp, 'rs'),
+                      plotbuilder.plot_func("Aho", aho, 'сеня добавь штуку для корася')])
+    
