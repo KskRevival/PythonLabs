@@ -14,7 +14,7 @@ if __name__ == '__main__':
     is_time = True
 
     for i in range(7, 20):
-        (hay, needle) = textgen.get_fixed_text(r.randint(2 ** (i - 7), 2 ** (i - 3)), 10000)
+        (hay, needle) = textgen.get_fixed_text(r.randint(2 ** (i - 7), 2 ** (i - 3)), 100000)
         standard.append(benchmark.test(algos.standard_search, hay, needle, is_time))
         rabin.append(benchmark.test(algos.rabin_karp, hay, needle, is_time))
         bauer.append(benchmark.test(algos.bauer_moore, hay, needle, is_time))
