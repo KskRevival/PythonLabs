@@ -94,8 +94,7 @@ def kmp(hay, needle):
 
 
 class AhoNode:
-    ''' Вспомогательный класс для построения дерева
-    '''
+
     def __init__(self):
         self.goto = {}
         self.out = []
@@ -103,8 +102,6 @@ class AhoNode:
 
 
 def aho_create_forest(patterns):
-    '''Создать бор - дерево паттернов
-    '''
     root = AhoNode()
 
     for path in patterns:
@@ -116,22 +113,12 @@ def aho_create_forest(patterns):
 
 
 def aho_create_statemachine(patterns):
-    '''Создать автомат Ахо-Корасика.
-    Фактически создает бор и инициализирует fail-функции
-    всех узлов, обходя дерево в ширину.
-    '''
-    # Создаем бор, инициализируем
-    # непосредственных потомков корневого узла
     root = aho_create_forest(patterns)
     queue = []
     for node in root.goto.values():
         queue.append(node)
         node.fail = root
 
-    # Инициализируем остальные узлы:
-    # 1. Берем очередной узел (важно, что проход в ширину)
-    # 2. Находим самую длинную суффиксную ссылку для этой вершины - это и будет fail-функция
-    # 3. Если таковой не нашлось - устанавливаем fail-функцию в корневой узел
     while len(queue) > 0:
         rnode = queue.pop(0)
 
@@ -146,26 +133,19 @@ def aho_create_statemachine(patterns):
     return root
 
 
-def aho_find_all(s, root, callback):
-    '''Находит все возможные подстроки из набора паттернов в строке.
-    '''
+def aho(hay, needle):
+    root = aho_create_statemachine([needle])
     node = root
 
-    for i in range(len(s)):
-        while node is not None and s[i] not in node.goto:
+    for i in range(len(hay)):
+        while node is not None and hay[i] not in node.goto:
             node = node.fail
         if node is None:
             node = root
             continue
-        node = node.goto[s[i]]
+        node = node.goto[hay[i]]
         for pattern in node.out:
-            callback(i - len(pattern) + 1, pattern)
+            return i - len(pattern) + 1
+    return -1
 
 
-def on_occurence(pos, patterns):
-    print("At pos %s found pattern: %s" % (pos, patterns))
-
-patterns = ['a', 'ab', 'abc', 'bc', 'c', 'cba']
-s = "abcba"
-root = aho_create_statemachine(patterns)
-aho_find_all(s, root, on_occurence)
