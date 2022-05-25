@@ -1,13 +1,22 @@
 import matplotlib.pyplot as plt
 
 
-def draw(is_time, x, standard, rabin, bauer, res_kmp):
+class plot_func:
+    name = ''
+    res = []
+    color = ''
+
+    def __init__(self, name, res, color):
+        self.name = name
+        self.res = res
+        self.color = color
+
+
+def draw(is_time, x, func_res):
     ax1 = plt.figure(figsize=(12, 7)).add_subplot(111)
 
-    plt.plot(x, standard, 'b*', alpha=0.7, label="Standard", mew=2, ms=10)
-    plt.plot(x, rabin, 'g^', alpha=0.7, label="Rabin Karp", mew=2, ms=10)
-    plt.plot(x, bauer, 'rs', alpha=0.7, label="Bauer Moore", mew=2, ms=10)
-    plt.plot(x, res_kmp, 'cD', alpha=0.7, label="KMP", mew=2, ms=10)
+    for func in func_res:
+        plt.plot(x, func.res, func.color, alpha=0.7, label=func.name, mew=2, ms=10)
 
     plt.legend()
     if is_time:
