@@ -1,5 +1,5 @@
-import datetime
 import tracemalloc
+from datetime import datetime
 
 
 def get_time(func, hay, needle):
