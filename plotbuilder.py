@@ -3,13 +3,12 @@ import matplotlib.pyplot as plt
 
 class PlotFunc:
     name = ''
-    res = []
     color = ''
 
-    def __init__(self, name, res, color):
+    def __init__(self, name, color):
         self.name = name
-        self.res = res
         self.color = color
+        self.res = []
 
 
 def draw(is_time, x, func_res):
@@ -19,14 +18,10 @@ def draw(is_time, x, func_res):
         plt.plot(x, func.res, func.color, alpha=0.7, label=func.name, mew=2, ms=10)
 
     plt.legend()
-    
     if is_time:
         ax1.set_title(u'Time By Needle Length')
-        plt.ylabel(u'Time [ms]', fontsize=12)
-    else:
-        ax1.set_title(u'Memory By Needle Length')
-        plt.ylabel(u'Memory [mb]', fontsize=12)
-
+    ax1.set_title(u'Memory By Needle Length')
     plt.xlabel(u'Needle length [2^n]', fontsize=12)
+    plt.ylabel(u'Time [ms]', fontsize=12)
     plt.grid(True)
     plt.show()
