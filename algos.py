@@ -149,3 +149,8 @@ def aho(hay, needle):
     return -1
 
 
+algos = {'Standard': standard_search,
+         'Rabin': rabin_karp,
+         'Bauer': bauer_moore,
+         'KMP': kmp,
+         'Aho': aho}
